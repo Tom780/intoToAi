@@ -50,6 +50,10 @@ class Environment:
         self.world[from_y][from_x] = " "
         return True
 
+    def turn_to(self, position, turn_to):
+        self.world[position[1]][position[0]].orientation = turn_to
+        return True
+
     def __str__(self):
         out = ""
         for row in self.world:
@@ -64,6 +68,9 @@ if __name__ == "__main__":
 
     docking = e.world[11][3]
     robot1 = e.world[10][3]
+
+    print("The starting position is:")
+    print(e)
 
     for i in range(5):
         # Change 1 simulate more moves. I.e. 100 would simulate 100 moves
