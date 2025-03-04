@@ -9,6 +9,13 @@ class DockingStation(Agent):
         self.orientation = "u"
 
     def decide(self, percept):
+        sensed_spaces = {
+            "u": (self.position[0], self.position[1] - 1),  # Up
+            "d": (self.position[0], self.position[1] + 1),  # Down
+            "l": (self.position[0] - 1, self.position[1]),  # Left
+            "r": (self.position[0] + 1, self.position[1])  # Right
+        }
+
         for space in percept:
             if utils.is_robot(space):
                 return True
