@@ -11,10 +11,12 @@ if __name__ == "__main__":
     print("The starting position is:")
     print(e)
 
-    for i in range(5):
-        # Change 1 simulate more moves. I.e. 100 would simulate 100 moves
-        # Call the act method for each agent operating in the environment
-
+    while robot1.battery_life != 0:
         robot1.act(e)
         docking.act(e)
         print(e)
+
+    # for i in range(5):
+    #     robot1.act(e)
+    #     docking.act(e)
+    #     print(e)
