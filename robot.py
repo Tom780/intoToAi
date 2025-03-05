@@ -10,21 +10,8 @@ class Robot(Agent):
         self.battery_life = 100
 
     def decide(self, percept: dict[tuple[int, int], ...]):
-        # # Check if the robot is next to a water station
-        # water_stations = [pos for pos, obj in percept.items() if utils.is_water_station(obj)]
-        # if water_stations:
-        #     # Record the water station's position
-        #     self.water_station_location = water_stations[0]
-        #
-        # empty_spaces = [pos for pos, obj in percept.items() if obj == " "]
-        # if empty_spaces:
-        #     valid_options = []
-        #     move_to = random.choice(empty_spaces)
-        #     return "move", move_to
-
         valid_options = []
 
-        # Define allowed movement based on orientation
         movement_directions = {
             "^": (self.position[0], self.position[1] - 1),  # Up
             "v": (self.position[0], self.position[1] + 1),  # Down
@@ -81,4 +68,3 @@ class Robot(Agent):
 
     def __str__(self):
         return self.orientation
-

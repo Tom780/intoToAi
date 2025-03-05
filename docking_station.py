@@ -1,7 +1,4 @@
-﻿from xml.etree.ElementTree import tostring
-
-import robot
-from agent import Agent
+﻿from agent import Agent
 import utils
 
 class DockingStation(Agent):

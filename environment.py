@@ -10,7 +10,7 @@ class Environment:
     def load_map(self):
         try:
             with open(self.file_path) as f:
-                world_map = row = [[col.lower() for col in line.strip()] for line in f]
+                world_map = [[col.lower() for col in line.strip()] for line in f]
 
                 # quick error check
                 first_row = len(world_map[0])
