@@ -1,6 +1,5 @@
 from docking_station import DockingStation
 from robot import Robot
-from flame import Flame
 
 
 def is_robot(object):
@@ -9,7 +8,7 @@ def is_robot(object):
     return False
 
 
-def is_water_station(object):
+def is_docking_station(object):
     if isinstance(object, DockingStation):
         return True
     return False
