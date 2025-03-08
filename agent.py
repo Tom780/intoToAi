@@ -12,6 +12,7 @@ class Agent(ABC):
             "left": (0, -1)
         }
 
+
     def sense(self, environment):
         neighbours = []
         for direction in ["up", "right", "down", "left"]:
@@ -20,9 +21,11 @@ class Agent(ABC):
 
         return environment.get_cells(neighbours)
 
+
     @abstractmethod
     def decide(self, percept: dict[tuple[int,int],...]):
         pass
+
 
     @abstractmethod
     def act(self, environment):

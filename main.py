@@ -15,7 +15,3 @@ if __name__ == "__main__":
         docking.act(e)
         print(e)
 
-    # for i in range(5):
-    #     robot1.act(e)
-    #     docking.act(e)
-    #     print(e)

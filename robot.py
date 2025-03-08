@@ -13,10 +13,10 @@ class Robot(Agent):
         valid_options = []
 
         movement_directions = {
-            "^": (self.position[0], self.position[1] - 1),  # Up
-            "v": (self.position[0], self.position[1] + 1),  # Down
-            "<": (self.position[0] - 1, self.position[1]),  # Left
-            ">": (self.position[0] + 1, self.position[1])  # Right
+            "^": (self.position[0], self.position[1] - 1),
+            "v": (self.position[0], self.position[1] + 1),
+            "<": (self.position[0] - 1, self.position[1]),
+            ">": (self.position[0] + 1, self.position[1])
         }
 
         forward_position = movement_directions.get(self.orientation)
@@ -45,6 +45,7 @@ class Robot(Agent):
             elif action == "turn":
                 self.turn(environment, target)
 
+
     def turn(self, environment, turn_to):
         if self.battery_life <= 0:
             print("battery life has ran out")
@@ -54,6 +55,7 @@ class Robot(Agent):
             self.battery_life = self.battery_life - 1
             print(f"Robot turned to {self.orientation}")
             print(f"The battery life is {self.battery_life}")
+
 
     def move(self, environment, to):
         if self.battery_life <= 0:
@@ -65,6 +67,7 @@ class Robot(Agent):
                 self.battery_life = self.battery_life - 1
                 print(f"Robot moved to {self.position}")
                 print(f"The battery life is {self.battery_life}")
+
 
     def __str__(self):
         return self.orientation

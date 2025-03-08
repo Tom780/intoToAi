@@ -7,10 +7,10 @@ class DockingStation(Agent):
         super().__init__(position)
         self.orientation = "u"
         self.sensed_spaces = {
-            "u": (self.position[0], self.position[1] - 1),  # Up
-            "d": (self.position[0], self.position[1] + 1),  # Down
-            "l": (self.position[0] - 1, self.position[1]),  # Left
-            "r": (self.position[0] + 1, self.position[1])  # Right
+            "u": (self.position[0], self.position[1] - 1),
+            "d": (self.position[0], self.position[1] + 1),
+            "l": (self.position[0] - 1, self.position[1]),
+            "r": (self.position[0] + 1, self.position[1])
         }
 
     def decide(self, percept):
