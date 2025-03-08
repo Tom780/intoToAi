@@ -9,6 +9,7 @@ if __name__ == "__main__":
     print("The starting position is:")
     print(e)
 
+    print("The battery life of the robot is: ", robot1.battery_life)
     while robot1.battery_life != 0:
         robot1.act(e)
         docking.act(e)

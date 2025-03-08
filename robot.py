@@ -7,7 +7,7 @@ class Robot(Agent):
     def __init__(self, position: tuple[int, int]):
         super().__init__(position)
         self.orientation = "^"
-        self.battery_life = 100
+        self.battery_life = 80
 
     def decide(self, percept: dict[tuple[int, int], ...]):
         valid_options = []
