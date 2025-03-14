@@ -9,13 +9,8 @@ class Robot(Agent):
         self.orientation = "^"
         self.battery_life = 80
         self.current_location = position
-        self.charge_location = [10][3]
         self.map_size = map_size
         self.map = [["?" for _ in range(map_size[1])] for _ in range(map_size[0])]
-
-
-
-
 
 
     def decide(self, percept: dict[tuple[int, int], ...]):
