@@ -29,6 +29,10 @@ class Robot(Agent):
 
         forward_position = movement_directions.get(self.orientation)
 
+        # decide here if the robot needs to return to charge and then get it to do so
+        items_to_avoid = ["x","u","d","l","r"]
+
+
         docking_station = [pos for pos, obj in percept.items() if utils.is_docking_station(obj)]
         if docking_station:
             self.docking_station_location = docking_station[0]
@@ -131,14 +135,9 @@ class Robot(Agent):
         return path
 
     def viable_move(self, x, y, types):
-        # You will need to do this one
-        # Do not move in to a cell containing an obstacle (represented by 'x')
-        # Do not move in to a cell containing a flame
-        # Do not move in to a cell containing a water station
-        # Do not move in to a cell containing a robot.
-        # In fact, the only valid cells are blank ones
-        # Also, do not go out of bounds.
-        pass
+        return (x, y) not in types
+
+
 
     def calc_distance(self, point1: tuple[int, int], point2: tuple[int, int]):
         x1, y1 = point1
