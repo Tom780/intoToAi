@@ -1,7 +1,9 @@
+from shutil import chown
+
 from agent import Agent
 import random
 import environment
-
+import utils
 class Robot(Agent):
 
     def __init__(self, position: tuple[int, int],map_size = (30,17)):
@@ -25,15 +27,19 @@ class Robot(Agent):
 
         forward_position = movement_directions.get(self.orientation)
 
-        if forward_position in percept and percept[forward_position] == " ":
-            valid_options.append(("move", forward_position))
+        docking_station = [pos for pos, obj in percept.items() if utils.is_docking_station(obj)]
+        if docking_station and self.battery_life < 100:
+            chosen_move = ("charge",self.position[0])
+        else:
+            if forward_position in percept and percept[forward_position] == " ":
+                valid_options.append(("move", forward_position))
 
-        possible_orientations = ["^", ">", "v", "<"]
-        possible_orientations.remove(self.orientation)
+            possible_orientations = ["^", ">", "v", "<"]
+            possible_orientations.remove(self.orientation)
 
-        for new_orientation in possible_orientations:
-            valid_options.append(("turn", new_orientation))
-        chosen_move = random.choice(valid_options)
+            for new_orientation in possible_orientations:
+                valid_options.append(("turn", new_orientation))
+            chosen_move = random.choice(valid_options)
 
         return chosen_move
 
@@ -48,6 +54,12 @@ class Robot(Agent):
                 self.move(environment, target)
             elif action == "turn":
                 self.turn(environment, target)
+            elif action == "charge":
+                self.charge(environment)
+
+    def charge(self,environment):
+        print("the battery has increased")
+        print(f"The battery life is {self.battery_life}")
 
 
     def turn(self, environment, turn_to):
