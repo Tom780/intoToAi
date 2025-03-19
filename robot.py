@@ -30,25 +30,25 @@ class Robot(Agent):
         forward_position = movement_directions.get(self.orientation)
 
         # decide here if the robot needs to return to charge and then get it to do so
-        items_to_avoid = ["x","u","d","l","r"]
-
-
-        docking_station = [pos for pos, obj in percept.items() if utils.is_docking_station(obj)]
-        if docking_station:
-            self.docking_station_location = docking_station[0]
-
-        if docking_station and self.battery_life < 100:
-            chosen_move = ("charge",self.position[0])
+        if self.battery_life > 30:
+            chosen_move = ("return to docking",self.position[0])
         else:
-            if forward_position in percept and percept[forward_position] == " ":
-                valid_options.append(("move", forward_position))
+            docking_station = [pos for pos, obj in percept.items() if utils.is_docking_station(obj)]
+            if docking_station:
+                self.docking_station_location = docking_station[0]
 
-            possible_orientations = ["^", ">", "v", "<"]
-            possible_orientations.remove(self.orientation)
+            if docking_station and self.battery_life < 100:
+                chosen_move = ("charge",self.position[0])
+            else:
+                if forward_position in percept and percept[forward_position] == " ":
+                    valid_options.append(("move", forward_position))
 
-            for new_orientation in possible_orientations:
-                valid_options.append(("turn", new_orientation))
-            chosen_move = random.choice(valid_options)
+                possible_orientations = ["^", ">", "v", "<"]
+                possible_orientations.remove(self.orientation)
+
+                for new_orientation in possible_orientations:
+                    valid_options.append(("turn", new_orientation))
+                chosen_move = random.choice(valid_options)
 
         return chosen_move
 
@@ -65,6 +65,12 @@ class Robot(Agent):
                 self.turn(environment, target)
             elif action == "charge":
                 self.charge(environment)
+            elif action == "return to docking":
+                self.return_to_docking(environment)
+
+    def return_to_docking(Self,environment):
+        # sort out return to docking
+        pass
 
     def charge(self,environment):
         print("the battery has increased")
