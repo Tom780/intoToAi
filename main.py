@@ -10,8 +10,10 @@ if __name__ == "__main__":
     print(e)
 
     print("The battery life of the robot is: ", robot1.battery_life)
-    while robot1.battery_life != 0:
+    for i in range(100):
         robot1.act(e)
         docking.act(e)
         print(e)
+
+
 
