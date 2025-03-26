@@ -12,6 +12,7 @@ class DockingStation(Agent):
             "l": (self.position[0] - 1, self.position[1]),
             "r": (self.position[0] + 1, self.position[1])
         }
+        self.senses_robot = False
 
     def decide(self, percept):
         forward_space = self.sensed_spaces.get(self.orientation)
@@ -26,6 +27,8 @@ class DockingStation(Agent):
 
         if decision:
          robot_instance = cell[forward_space]
+         self.senses_robot = True
+         print("The robot instance is", robot_instance)
          robot_instance.battery_life  = min(robot_instance.battery_life + 5, 100)
 
 
