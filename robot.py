@@ -34,16 +34,8 @@ class Robot(Agent):
         if self.battery_life <= 60:
             chosen_move = ("return to docking",self.position[0])
         else:
-            docking_station = [pos for pos, obj in percept.items() if utils.is_docking_station(obj)]
-            # orientation of docking station goes here
 
-            # end of orientation code
-            if docking_station:
-                print("the docking is" , docking_station)
-                self.docking_station_location = docking_station[0]
-
-            # change it so that its only if its square behind is the docking station
-            if docking_station and self.battery_life < 100:
+            if self.position == (3,10) and self.battery_life < 100:
                 chosen_move = ("charge",self.position[0])
             else:
                 if forward_position in percept and percept[forward_position] == " ":
