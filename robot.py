@@ -32,7 +32,9 @@ class Robot(Agent):
 
         # decide here if the robot needs to return to charge and then get it to do so
         if self.battery_life <= 60:
-            chosen_move = ("return to docking",self.position[0])
+            path = self.calc_path(self.position, (3, 10), ["x"])
+            if path and len(path) > 1:  # Ensure there is a valid path
+                chosen_move = ("move", path[1])  # Move to the next step in the path
         else:
 
             if self.position == (3,10) and self.battery_life < 100:
@@ -66,9 +68,9 @@ class Robot(Agent):
             elif action == "return to docking":
                 self.return_to_docking(environment)
 
-    def return_to_docking(Self,environment):
-        # sort out return to docking
-        pass
+    def return_to_docking(self,environment):
+        path = self.calc_path(self.position,(3,10),["x"])
+        self.move(environment,path[0])
 
     def charge(self,environment):
         print("the battery has increased")
