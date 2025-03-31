@@ -30,7 +30,7 @@ class Robot(Agent):
 
         forward_position = movement_directions.get(self.orientation)
         chosen_move = None
-        if self.battery_life <= 60:
+        if self.battery_life <= 30:
             path = self.calc_path(self.position, (3, 10), ["x"])
             if path and len(path) > 1:
                 next_move = path[1]
