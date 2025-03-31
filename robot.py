@@ -29,12 +29,18 @@ class Robot(Agent):
         }
 
         forward_position = movement_directions.get(self.orientation)
-
-        # decide here if the robot needs to return to charge and then get it to do so
+        chosen_move = None
         if self.battery_life <= 60:
             path = self.calc_path(self.position, (3, 10), ["x"])
-            if path and len(path) > 1:  # Ensure there is a valid path
-                chosen_move = ("move", path[1])  # Move to the next step in the path
+            if path and len(path) > 1:
+                next_move = path[1]
+                if next_move == forward_position:
+                    chosen_move = ("move",next_move)
+                else:
+                    for direction,pos in movement_directions.items():
+                        if pos == next_move:
+                            chosen_move = ("turn",direction)
+                            break
         else:
 
             if self.position == (3,10) and self.battery_life < 100:
