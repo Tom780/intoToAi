@@ -46,7 +46,8 @@ class Robot(Agent):
             if self.position == (3,10) and self.battery_life < 100:
                 chosen_move = ("charge",self.position[0])
             else:
-                if forward_position in percept and percept[forward_position] == " ":
+                if forward_position in percept and isinstance(percept[forward_position], tuple) and \
+                        percept[forward_position][0] == " ":
                     valid_options.append(("move", forward_position))
 
                 possible_orientations = ["^", ">", "v", "<"]

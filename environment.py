@@ -1,3 +1,5 @@
+from random import randint
+
 import utils
 
 
@@ -33,13 +35,20 @@ class Environment:
                     world_map[i][j] = utils.DockingStation((j, i))
                 elif world_map[i][j] == '^' or world_map[i][j] == 'v' or world_map[i][j] == '<' or world_map[i][j] == '>':
                     world_map[i][j] = utils.Robot((j, i))
+                elif world_map[i][j] == ' ':
+                    world_map[i][j] = (" ", randint(0, 100))
         return world_map
 
 
     def get_cells(self, positions:list) -> dict[tuple[int,int],...]:
         cells = {}
         for pos in positions:
-            cells[pos] = self.world[pos[1]][pos[0]]
+            cell = self.world[pos[1]][pos[0]]
+
+            if isinstance(cell, tuple) and cell[0] == " ":
+                cells[pos] = cell  # Tuple: (" ", dirt_level)
+            else:
+                cells[pos] = cell
         return cells
 
 
@@ -61,6 +70,9 @@ class Environment:
         out = ""
         for row in self.world:
             for col in row:
-                out += f"{col}\t"
+                if isinstance(col, tuple):
+                    out += " \t"
+                else:
+                    out += f"{col}\t"
             out += "\n"
         return out
