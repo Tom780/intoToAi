@@ -69,7 +69,7 @@ class Environment:
     def clean_cell(self, position):
         print("The cell was" + str(self.dirt_map[position]))
         if position in self.dirt_map:
-            self.dirt_map[position] -= 10
+            self.dirt_map[position] = min(self.dirt_map[position] - 10, 0)
             print("The cell now is" + str(self.dirt_map[position]))
 
     def __str__(self):

@@ -46,7 +46,6 @@ class Robot(Agent):
         elif current_dirt > 0:
             chosen_move = ("clean",self.position)
         else:
-            print("the self.position is" + str(self.position))
 
             if self.position == (3,10) and self.battery_life < 100:
                 chosen_move = ("charge",self.position[0])
