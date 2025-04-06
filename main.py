@@ -14,6 +14,5 @@ if __name__ == "__main__":
         robot1.act(e)
         docking.act(e)
         print(e)
-
-
-
+    print("The robots map at the end was")
+    print (robot1.output_map())

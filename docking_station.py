@@ -31,6 +31,8 @@ class DockingStation(Agent):
          print("The robot instance is", robot_instance)
          robot_instance.battery_life  = min(robot_instance.battery_life + 5, 101)
 
+    # def get_orientation(cls):
+    #     return self.orientation
 
     def __str__(self):
         return self.orientation

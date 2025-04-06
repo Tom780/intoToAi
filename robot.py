@@ -1,10 +1,14 @@
 from shutil import chown
 
+import docking_station
 from agent import Agent
 import random
 import environment
 import utils
 import heapq
+
+from docking_station import DockingStation
+
 
 class Robot(Agent):
 
@@ -15,8 +19,6 @@ class Robot(Agent):
         self.current_location = position
         self.map_size = map_size
         self.map = [["?" for _ in range(map_size[1])] for _ in range(map_size[0])]
-        self.docking_station_location = None
-
 
     def decide(self, percept: dict[tuple[int, int], ...],environment):
         valid_options = []
@@ -85,7 +87,19 @@ class Robot(Agent):
 
     def act(self, environment):
         cells = self.sense(environment)
-        decision = self.decide(cells,environment)
+        for pos, value in cells.items():
+            x, y = pos
+            if isinstance(value, str):
+                self.map[y][x] = value
+            elif isinstance(value, DockingStation):
+                if utils.is_docking_station(value):
+                    self.map[y][x] = value.orientation
+                else:
+                    self.map[y][x] = str(value)
+
+
+
+        decision = self.decide(cells, environment)
 
         if decision:
             action, target = decision
@@ -130,7 +144,7 @@ class Robot(Agent):
             if environment.move_to(self.position, to):
                 self.position = to
                 self.battery_life = self.battery_life - 1
-                self.map[self.position[0]][self.position[1]] = " "
+                # self.map[self.position] = " "
                 print(f"Robot moved to {self.position}")
                 print(f"The battery life is {self.battery_life}")
 
@@ -185,6 +199,13 @@ class Robot(Agent):
         return abs(x1 - x2) + abs(y1 - y2)
 
     # END OF MANHATTAN DISTANCE FUNCTIONS
+    def output_map(self):
+        out = ""
+        for row in self.map:
+            for col in row:
+                out += f"{col}\t"
+            out += "\n"
+        return out
 
     def __str__(self):
         return self.orientation
