@@ -43,13 +43,32 @@ class Robot(Agent):
                         if pos == next_move:
                             chosen_move = ("turn",direction)
                             break
-        elif current_dirt > 0:
-            chosen_move = ("clean",self.position)
-        else:
 
+        elif current_dirt > 0:
+            print(f"The robot is about to clean tile {self.position}")
+            chosen_move = ("clean",self.position)
+
+        else:
             if self.position == (3,10) and self.battery_life < 100:
                 chosen_move = ("charge",self.position[0])
             else:
+                max_dirt = -1
+                tile_to_move_to = None
+                for pos in percept:
+                    if isinstance(percept[pos], str) and percept[pos] == " ":
+                        dirt = environment.get_dirt_level(pos)
+                        if dirt > max_dirt:
+                            max_dirt = dirt
+                            tile_to_move_to = pos
+
+                if tile_to_move_to == forward_position:
+                    return "move",tile_to_move_to
+
+                for direction, pos in movement_directions.items():
+                    if pos == tile_to_move_to:
+                        return "turn", direction
+
+                #no dirty tiles
                 if forward_position in percept and isinstance(percept[forward_position], tuple) and \
                         percept[forward_position][0] == " ":
                     valid_options.append(("move", forward_position))
@@ -80,6 +99,8 @@ class Robot(Agent):
                 self.return_to_docking(environment)
             elif action == "clean":
                 environment.clean_cell(self.position)
+                self.battery_life -= 2
+                print(f"The battery life of the robot after cleaning is: {self.battery_life}")
 
     def return_to_docking(self,environment):
         path = self.calc_path(self.position,(3,10),["x"])

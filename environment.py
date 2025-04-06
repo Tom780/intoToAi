@@ -38,7 +38,7 @@ class Environment:
                     world_map[i][j] = utils.Robot((j, i))
                 elif world_map[i][j] == ' ':
                     dirt_value = randint(0, 100)
-                    world_map[i][j] = (" ", dirt_value)
+                    world_map[i][j] = " "
                     self.dirt_map[(j, i)] = dirt_value
         return world_map
 
@@ -63,24 +63,21 @@ class Environment:
         return True
 
     def get_dirt_level(self, position):
-        print("hello")
         return self.dirt_map.get(position, 0)
 
     def clean_cell(self, position):
-        print("The cell was" + str(self.dirt_map[position]))
+        print("The cell was " + str(self.dirt_map[position]))
         if position in self.dirt_map:
-            self.dirt_map[position] = min(self.dirt_map[position] - 10, 0)
-            print("The cell now is" + str(self.dirt_map[position]))
+            self.dirt_map[position] = max(self.dirt_map[position] - 10, 0)
+            print("The cell now is " + str(self.dirt_map[position]))
 
     def __str__(self):
         out = ""
         for row in self.world:
             for col in row:
-                if isinstance(col, tuple):
-                    out += " \t"
-                else:
-                    out += f"{col}\t"
+                out += f"{col}\t"
             out += "\n"
         return out
+
 
 
