@@ -18,7 +18,7 @@ class Robot(Agent):
         self.docking_station_location = None
 
 
-    def decide(self, percept: dict[tuple[int, int], ...]):
+    def decide(self, percept: dict[tuple[int, int], ...],environment):
         valid_options = []
 
         movement_directions = {
@@ -30,6 +30,8 @@ class Robot(Agent):
 
         forward_position = movement_directions.get(self.orientation)
         chosen_move = None
+        current_dirt = environment.get_dirt_level(self.position)
+
         if self.battery_life <= 30:
             path = self.calc_path(self.position, (3, 10), ["x"])
             if path and len(path) > 1:
@@ -41,7 +43,10 @@ class Robot(Agent):
                         if pos == next_move:
                             chosen_move = ("turn",direction)
                             break
+        elif current_dirt > 0:
+            chosen_move = ("clean",self.position)
         else:
+            print("the self.position is" + str(self.position))
 
             if self.position == (3,10) and self.battery_life < 100:
                 chosen_move = ("charge",self.position[0])
@@ -62,7 +67,7 @@ class Robot(Agent):
 
     def act(self, environment):
         cells = self.sense(environment)
-        decision = self.decide(cells)
+        decision = self.decide(cells,environment)
 
         if decision:
             action, target = decision
@@ -74,6 +79,8 @@ class Robot(Agent):
                 self.charge(environment)
             elif action == "return to docking":
                 self.return_to_docking(environment)
+            elif action == "clean":
+                environment.clean_cell(self.position)
 
     def return_to_docking(self,environment):
         path = self.calc_path(self.position,(3,10),["x"])

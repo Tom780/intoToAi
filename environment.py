@@ -7,6 +7,7 @@ class Environment:
 
     def __init__(self, map_path):
         self.file_path = map_path
+        self.dirt_map = {}
         self.world = self.load_assets(self.load_map())
 
     def load_map(self):
@@ -36,19 +37,15 @@ class Environment:
                 elif world_map[i][j] == '^' or world_map[i][j] == 'v' or world_map[i][j] == '<' or world_map[i][j] == '>':
                     world_map[i][j] = utils.Robot((j, i))
                 elif world_map[i][j] == ' ':
-                    world_map[i][j] = (" ", randint(0, 100))
+                    dirt_value = randint(0, 100)
+                    world_map[i][j] = (" ", dirt_value)
+                    self.dirt_map[(j, i)] = dirt_value
         return world_map
 
-
-    def get_cells(self, positions:list) -> dict[tuple[int,int],...]:
+    def get_cells(self, positions: list) -> dict[tuple[int, int], ...]:
         cells = {}
         for pos in positions:
-            cell = self.world[pos[1]][pos[0]]
-
-            if isinstance(cell, tuple) and cell[0] == " ":
-                cells[pos] = cell  # Tuple: (" ", dirt_level)
-            else:
-                cells[pos] = cell
+            cells[pos] = self.world[pos[1]][pos[0]]
         return cells
 
 
@@ -65,6 +62,15 @@ class Environment:
         self.world[position[1]][position[0]].orientation = turn_to
         return True
 
+    def get_dirt_level(self, position):
+        print("hello")
+        return self.dirt_map.get(position, 0)
+
+    def clean_cell(self, position):
+        print("The cell was" + str(self.dirt_map[position]))
+        if position in self.dirt_map:
+            self.dirt_map[position] -= 10
+            print("The cell now is" + str(self.dirt_map[position]))
 
     def __str__(self):
         out = ""
@@ -76,3 +82,5 @@ class Environment:
                     out += f"{col}\t"
             out += "\n"
         return out
+
+

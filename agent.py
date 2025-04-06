@@ -23,7 +23,7 @@ class Agent(ABC):
 
 
     @abstractmethod
-    def decide(self, percept: dict[tuple[int,int],...]):
+    def decide(self, percept: dict[tuple[int,int],...],environment):
         pass
 
 
