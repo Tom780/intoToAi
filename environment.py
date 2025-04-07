@@ -7,7 +7,7 @@ class Environment:
 
     def __init__(self, map_path):
         self.file_path = map_path
-        self.dirt_map = {}
+        self.dirt_level_map = {}
         self.world = self.load_assets(self.load_map())
 
     def load_map(self):
@@ -39,7 +39,7 @@ class Environment:
                 elif world_map[i][j] == ' ':
                     dirt_value = randint(0, 100)
                     world_map[i][j] = " "
-                    self.dirt_map[(j, i)] = dirt_value
+                    self.dirt_level_map[(j, i)] = dirt_value
         return world_map
 
     def get_cells(self, positions: list) -> dict[tuple[int, int], ...]:
@@ -63,13 +63,13 @@ class Environment:
         return True
 
     def get_dirt_level(self, position):
-        return self.dirt_map.get(position, 0)
+        return self.dirt_level_map.get(position, 0)
 
     def clean_cell(self, position):
-        print("The cell was " + str(self.dirt_map[position]))
-        if position in self.dirt_map:
-            self.dirt_map[position] = max(self.dirt_map[position] - 10, 0)
-            print("The cell now is " + str(self.dirt_map[position]))
+        print("The cell was " + str(self.dirt_level_map[position]))
+        if position in self.dirt_level_map:
+            self.dirt_level_map[position] = max(self.dirt_level_map[position] - 10, 0)
+            print("The cell now is " + str(self.dirt_level_map[position]))
 
     def __str__(self):
         out = ""
