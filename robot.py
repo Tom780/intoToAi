@@ -1,9 +1,5 @@
-from shutil import chown
-
-import docking_station
 from agent import Agent
 import random
-import environment
 import utils
 import heapq
 
@@ -70,7 +66,6 @@ class Robot(Agent):
                     if pos == tile_to_move_to:
                         return "turn", direction
 
-                #no dirty tiles
                 if forward_position in percept and isinstance(percept[forward_position], tuple) and \
                         percept[forward_position][0] == " ":
                     valid_options.append(("move", forward_position))
@@ -98,7 +93,6 @@ class Robot(Agent):
                     self.map[y][x] = str(value)
 
 
-
         decision = self.decide(cells, environment)
 
         if decision:
@@ -108,7 +102,7 @@ class Robot(Agent):
             elif action == "turn":
                 self.turn(environment, target)
             elif action == "charge":
-                self.charge(environment)
+                self.charge()
             elif action == "return to docking":
                 self.return_to_docking(environment)
             elif action == "clean":
@@ -120,7 +114,7 @@ class Robot(Agent):
         path = self.calc_path(self.position,(3,10),["x"])
         self.move(environment,path[0])
 
-    def charge(self,environment):
+    def charge(self):
         print("the battery has increased")
         print(f"The battery life is {self.battery_life}")
 
@@ -144,7 +138,6 @@ class Robot(Agent):
             if environment.move_to(self.position, to):
                 self.position = to
                 self.battery_life = self.battery_life - 1
-                # self.map[self.position] = " "
                 print(f"Robot moved to {self.position}")
                 print(f"The battery life is {self.battery_life}")
 
